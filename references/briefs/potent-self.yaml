@@ -1,0 +1,28 @@
+# 每本书的 brief（示例）——摩谢·费登奎斯《The Potent Self / 有力的自我》
+# 本文件是“书专用配置”的范例，证明 brief 机制怎么用。换一本书就新建一个 <slug>.yaml。
+# audit.py 会读取这里的 white: 作为“允许正文裸外文”的专有名词白名单。
+
+title: "The Potent Self / 有力的自我"
+author: "摩谢·费登奎斯 (Moshé Feldenkrais)"
+samples:
+  - "potent/podcast/01-人的能力.md"      # 相对/用户提供的样稿路径，写稿前读熟
+  - "potent/podcast/02-自发与强迫.md"
+# 允许在正文以原文直接出现的专有名词（无通用中文译名）。其余外文一律写“中文（原文）”。
+white:
+  - Nora
+  - Feldenkrais
+  - Moshe
+  - Mosh
+  - Broca
+  - Piaget
+  - Kirshner
+  - Jackson
+  - Bahnhofstrasse
+# 书专用纯中文例外 / 术语表（人读备注）
+glossary:
+  - "自发（spontaneity）"
+  - "《诺拉的病例》（The Case of Nora）"
+  - "我害怕。（原话是德语 Ich habe angst）"
+notes: |
+  主播延伸的锚定示例：作者说“强迫永远伴着肌肉紧张”，可据此让听众摸摸下巴/肩膀做身体觉察练习。
+  全书视角：可呼应“第2章的自发与强迫”保持连续感。

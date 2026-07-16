@@ -48,6 +48,11 @@ for f in sorted(glob.glob("*.md")):
         s = ln.strip()
         # 删掉整行的纯括号标签（含 主播延伸 标签），正文与标题一律保留
         if re.match(r"^（[^）]*）$", s):
+            # 防坑：图表描述若写成独占一行的标签会被静默吞掉（workflow §0.6
+            # 要求图表描述写进正文散文）。含 图/表/示意/配图/曲线/结构 或较长的
+            # 标签行疑似真内容，告警让作者改用正文散文或行内（图x）。
+            if re.search(r"[图图表示意配曲线结构]", s) or len(s) > 40:
+                print(f"  ⚠ 疑似图表/描述被剥离（请改为正文散文，或用行内（图x））：{s}")
             continue
         out_lines.append(ln)
     joined = "\n".join(out_lines)

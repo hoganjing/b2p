@@ -1,0 +1,17 @@
+# book-to-podcast skill —— 依赖清单
+# 安装：pip install -r requirements.txt
+# （把 `python` 换成你自己的解释器；见 SKILL.md / references/workflow.md 的“环境”说明）
+
+# 基础（make_tts.py / audit.py / tts_engine 都需要）
+pyyaml
+edge-tts
+
+# 走代理（Fish Audio / 小米 mimo 经 SOCKS5）
+"httpx[socks]"
+aiohttp_socks
+
+# mimo_voicedesign / mimo_voiceclone 出 mp3 需本地 ffmpeg 转码（自带二进制，无需系统 ffmpeg）
+imageio-ffmpeg
+
+# 可选：仅当输入是 PDF 且需要做“阶段〇 PDF 摄取/图像理解”时才需要
+# PyMuPDF

@@ -53,7 +53,7 @@ apis:
     api_key: "YOUR_MIMO_API_KEY"
     endpoint: https://api.xiaomimimo.com/v1/chat/completions
 
-  # 备选锚点：取自《脑科学》项目 ch01.mp3 前 30 秒（mp3，≤30s），作为另一种可选声线
+  # 示例备选锚点：可替换为任意书的锚点音频（mp3/wav, ≤30s, <10MB）。当前是打包的样例种子资产，换书时请改指向你自己的锚点。
   mimo-v2.5-tts-voiceclone-alt:
     type: mimo_voiceclone
     model: mimo-v2.5-tts-voiceclone
