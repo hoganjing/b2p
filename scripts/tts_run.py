@@ -99,9 +99,7 @@ def main():
         if not os.path.exists(tf):
             print(f"[warn] 缺文件: {tf}", flush=True)
             return False
-        base = os.path.splitext(os.path.basename(tf))[0]
-        if base.endswith(".tts"):
-            base = base[: -len(".tts")]
+        base = os.path.splitext(os.path.basename(tf))[0]  # "15-细胞.tts"
         out = os.path.join(out_dir, base + ext)
         if os.path.exists(out) and os.path.getsize(out) > 2000:
             print(f"  [skip] 已存在: {base}{ext}", flush=True)

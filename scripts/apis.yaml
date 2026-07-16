@@ -1,6 +1,6 @@
 # 多 API 配置。新增一个 API = 在 apis 下加一条 profile + 写一个 provider 子类。
 # 运行时选择优先级：CLI --api > 环境变量 TTS_PROVIDER > 下方 default。
-default: fish_audio
+default: edge_tts
 
 apis:
   fish_audio:
