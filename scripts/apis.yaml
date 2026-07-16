@@ -1,0 +1,65 @@
+# 多 API 配置。新增一个 API = 在 apis 下加一条 profile + 写一个 provider 子类。
+# 运行时选择优先级：CLI --api > 环境变量 TTS_PROVIDER > 下方 default。
+default: fish_audio
+
+apis:
+  fish_audio:
+    type: fish_audio
+    api_key: YOUR_FISH_AUDIO_API_KEY
+    voice_id: 59cb5986671546eaa6ca8ae6f29f6d22
+    model: s2.1-pro-free
+    socks: 127.0.0.1:10808
+
+  edge_tts:
+    type: edge_tts
+    voice: zh-CN-YunyangNeural    # 男声·专业沉稳；本播客 17 章选定音色（2026-07-13）
+    rate: "+0%"
+    volume: "+0%"
+
+  mimo:
+    type: mimo
+    model: mimo-v2.5-tts
+    voice: 冰糖                   # 中文女声；可选 茉莉(女)/苏打(男)/白桦(男)
+    format: mp3                   # 官方 API 支持 mp3 / wav / pcm16；默认 mp3，交付 .mp3
+    temperature: 0.3             # 采样温度，模型默认0.6；调低以减少跨切块韵律方差（实测 temp=0 仍非确定性，故仅作改善非锁死）
+    top_p: 0.5                   # 核采样阈值，模型默认0.95；调低同上
+    # 官方要求 api-key 鉴权（限时免费但需注册拿 key）
+    api_key: "YOUR_MIMO_API_KEY"
+    endpoint: https://api.xiaomimimo.com/v1/chat/completions
+    # 如需走代理可加：socks: 127.0.0.1:10808
+
+  mimo-v2.5-tts-voicedesign:
+    type: mimo_voicedesign
+    model: mimo-v2.5-tts-voicedesign
+    # 语音设计描述文本（必填，放 messages[user]，不会进入语音）：自然语言描述性别/年龄/音色/语气/语速
+    # 选定声线（2026-07-14 试听定稿）：3(年轻科普明亮) + 5(底气足不浮夸) 综合版
+    voice_design: "一位三十岁上下的男性，声音明亮清晰、干净利落、底气充足又有活力，像在讲一档高质量知识节目的主讲人；语速轻快流畅但不赶，语气热情投入、有感染力，专业而不轻浮。"
+    format: mp3                   # 语音设计模式 API 本身只出 wav/pcm16；provider 用本地 ffmpeg 转码为 mp3 交付 .mp3（与全书其余章节统一）
+    temperature: 0.3             # 采样温度，模型默认0.6；调低以减少跨切块韵律方差（实测 temp=0 仍非确定性，故仅作改善非锁死）
+    top_p: 0.5                   # 核采样阈值，模型默认0.95；调低同上
+    # optimize: true   # 可选：让模型智能润色文本（默认关，保证逐字照读）
+    api_key: "YOUR_MIMO_API_KEY"
+    endpoint: https://api.xiaomimimo.com/v1/chat/completions
+    # 如需走代理可加：socks: 127.0.0.1:10808
+
+  # 音色复刻模式：用一段「锚点音频」钉死声线，全书所有切块共用同一参考 → 跨章节音色一致
+  mimo-v2.5-tts-voiceclone:
+    type: mimo_voiceclone
+    model: mimo-v2.5-tts-voiceclone
+    anchor: anchor/anchor_voice.mp3   # 参考音频（mp3/wav，<10MB，≤30s）；即用户 approved 的 vd_7 声线定稿样音
+    format: mp3                        # API 只出 wav/pcm16，provider 本地 ffmpeg 转码为 mp3 交付 .mp3
+    temperature: 0.0                  # 最小方差：让每次生成音色/韵律变化最小
+    top_p: 0.01                       # 核采样阈值下限：同上（mimo 无 top_k，用 top_p 代替）
+    api_key: "YOUR_MIMO_API_KEY"
+    endpoint: https://api.xiaomimimo.com/v1/chat/completions
+
+  # 备选锚点：取自《脑科学》项目 ch01.mp3 前 30 秒（mp3，≤30s），作为另一种可选声线
+  mimo-v2.5-tts-voiceclone-alt:
+    type: mimo_voiceclone
+    model: mimo-v2.5-tts-voiceclone
+    anchor: anchor/anchor_alt_ch01.mp3
+    format: mp3
+    temperature: 0.0
+    top_p: 0.01
+    api_key: "YOUR_MIMO_API_KEY"
+    endpoint: https://api.xiaomimimo.com/v1/chat/completions
