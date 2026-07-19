@@ -17,9 +17,12 @@ class EdgeTTSProvider(TTSProvider):
         self.voice = cfg.get("voice", "zh-CN-XiaoxiaoNeural")
         self.rate = cfg.get("rate", "+0%")
         self.volume = cfg.get("volume", "+0%")
+        # 单个 chunk 合成超时（秒）。edge_tts 底层无超时，遇挂起连接会永久阻塞；
+        # 设上限让异常上抛，交由 engine 的退避重试 / 对半切自愈处理。
+        self.timeout = float(cfg.get("timeout", 90))
 
     def synth_chunk(self, text: str) -> bytes:
-        return asyncio.run(self._run(text))
+        return asyncio.run(asyncio.wait_for(self._run(text), timeout=self.timeout))
 
     async def _run(self, text: str) -> bytes:
         communicate = edge_tts.Communicate(

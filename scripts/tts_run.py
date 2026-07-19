@@ -23,7 +23,9 @@ from tts_engine import config as cfgmod
 from tts_engine.providers import get_provider
 from tts_engine.engine import generate_chapter
 
-AUDIO_DIR = os.path.join(HERE, "audio")
+# 输入/输出默认都基于「当前工作目录」，与书稿目录一致，避免读/写锁死在脚本目录
+WORK_DIR = os.getcwd()
+AUDIO_DIR = os.path.join(os.getcwd(), "audio")  # 默认 CWD/audio，避免产物写进技能目录
 
 
 def main():
@@ -81,9 +83,9 @@ def main():
     print(f"输出目录: {out_dir}")
 
     if args.chapters:
-        tts_files = [os.path.join(HERE, f"{c}.tts.txt") for c in args.chapters]
+        tts_files = [os.path.join(WORK_DIR, f"{c}.tts.txt") for c in args.chapters]
     else:
-        tts_files = sorted(glob.glob(os.path.join(HERE, "*.tts.txt")))
+        tts_files = sorted(glob.glob(os.path.join(WORK_DIR, "*.tts.txt")))
 
     max_chars = args.max_chars
     parallel = max(1, args.parallel)

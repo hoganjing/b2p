@@ -1,0 +1,94 @@
+# Descartes' Error — 书专用 brief
+# 播客化配置：audit.py 会读取 white: 作为“允许正文裸外文”的专有名词白名单。
+# 其他硬规则见 references/style_brief_template.md（通用，不在此重复）。
+
+title: "Descartes' Error: Emotion, Reason, and the Human Brain / 笛卡尔的错误：情绪、理性与人脑"
+author: "Antonio Damasio（安东尼奥·达马西奥）"
+samples:
+  - "podcast/00-导读写在前面.md"
+  - "podcast/01-Unpleasantness-in-Vermont.md"
+  - "podcast/08-The-Somatic-Marker-Hypothesis.md"
+# 允许在正文以原文直接出现的专有名词（无通用中文译名、或学界惯用英文）。其余外文一律写“中文（原文）”。
+# 神经解剖/人名/机构名等。宁可给中文译名，white 仅作兜底。
+white:
+  # 人名（首现即原文或学界惯用）
+  - Antonio Damasio
+  - Damasio
+  - Descartes
+  - Phineas Gage
+  - Elliott
+  - Gage
+  - Moniz
+  - Egas Moniz
+  - Almeida Lima
+  - Lima
+  - Gunther Stent
+  - Charles Stevens
+  - Salk Institute
+  - Paul Eluard
+  - Faulkner
+  - Tolstoy
+  - Aristotle
+  - Plato
+  - Augustine
+  - Ovid
+  - Hippocrates
+  - William James
+  - Freud
+  # 神经解剖（学界惯用英文名词）
+  - Prefrontal Cortex
+  - Ventromedial
+  - Ventricle
+  - Amygdala
+  - Hippocampus
+  - Neocortex
+  - Hypothalamus
+  - fMRI
+  - Body-State
+  - Somatic-Marker
+  - Somatic Marker
+  # 地名/机构（惯用英文）
+  - Vermont
+  # 专有名词 / 书 / 概念原文
+  - Cogito ergo sum
+  - res cogitans
+  - res extensa
+  - Anna Karenina
+  - Bill of Rights
+  - trigeminal neuralgia
+  - tic douloureux
+  - serotonin
+  - endorphin
+  - opioid
+  - placebo
+  - DNA
+  - RNA
+  - Genesis
+  # 标题里允许出现的英文（已用（English Title）处理，但避免误报）
+  - Discourse on the Method
+  - Principles of Philosophy
+  - Phaedo
+  - Liberté
+  - Tristia
+  - Anna Karenina
+glossary:
+  - "笛卡尔的错误（Descartes' Error）"
+  - "躯体标记假说（somatic-marker hypothesis）"
+  - "前额叶皮层（prefrontal cortex）"
+  - "腹内侧（ventromedial）"
+  - "情绪（emotion）"
+  - "感受（feeling）"
+  - "身体状态（body state）"
+  - "自我（self）"
+  - "次级表征（secondary representation）"
+  - "初级表征（primary representation）"
+  - "基底神经节（basal ganglia）"
+notes: |
+  本书为神经科学科普/专著，作者 Antonio Damasio 为神经科学家。
+  中文译名通行：《笛卡尔的错误：情绪、理性与人脑》（2005 Penguin 版）。
+  主播延伸锚定示例：作者用“盖奇（Phineas Gage）前额叶受损后人格崩塌”说明理性依赖情绪，
+  可让听众反思“自己有没有过纯粹靠逻辑却做错决定的时刻”。
+  全书视角：贯穿全书的线索是“情绪与理性并非对立，而是理性决策的底层支撑”——
+  写稿时在各章呼应这条主线（盖奇的悲剧 → 现代的艾略特 → 身体标记假说 → 推理的激情）。
+  结构：Preface + Introduction 合为第〇集导读；三个 Part 为分册标题，并入其后首章作为节标题；
+  Postscriptum 作为收尾独立短集。12 章正文 + 导读 + 后记。

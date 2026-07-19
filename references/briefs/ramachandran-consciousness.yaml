@@ -1,0 +1,114 @@
+# 书专用 brief —— V. S. 拉马钱德兰《A Brief Tour of Human Consciousness / 人类意识简旅》
+# audit.py 读取 white: 作为“允许正文裸外文”的专有名词白名单。
+# 本书为科普神经科学，正文纯中文，外文一律“中文（原文）”处理；仅少数无通用译名/约定俗成的专名进白名单。
+
+title: "A Brief Tour of Human Consciousness: from impostor poodles to purple numbers / 人类意识简旅：从冒名顶替的贵宾犬到紫色数字"
+author: "维拉亚努尔·S·拉马钱德兰 (V. S. Ramachandran)"
+samples:
+  - "podcast/00-导读·序言.md"
+  - "podcast/01-脑中痛觉.md"
+# 允许在正文以原文直接出现的专有名词（多为人名/机构/无通用中文译名的术语缩写）。
+white:
+  - Ramachandran
+  - Francis Galton
+  - V. S. Ramachandran
+  - Semir Zeki
+  - C. P. Snow
+  - BBC
+  - Reith
+  - Bertrand Russell
+  - Peter Medawar
+  - Oliver Sacks
+  - Larry Weiskrantz
+  - Niko Tinbergen
+  - Giacomo Rizzolatti
+  - Steve Pinker
+  - Noam Chomsky
+  - Alfred Russell Wallace
+  - Karl Popper
+  - Thomas Huxley
+  - Charles Darwin
+  - Watson
+  - Crick
+  - Benjamin Libet
+  - Hans Kornhuber
+  - Pat Churchland
+  - Dan Dennett
+  - Dan Wegner
+  - Chris Frith
+  - Lisa
+  - Broca
+  - Wernicke
+  - Penfield
+  - fMRI
+  - PET
+  - MEG
+  - DNA
+  - LSD
+  - TP
+  # 实验专有刺激词 / 技术缩写（无可替代中文译名，且为原文关键术语，允许正文裸用）
+  - MT
+  - GY
+  - IT
+  - CT
+  - RSD
+  - V4
+  - MRI
+  - VI
+  - Lill
+  - Roerrr
+  - booba
+  - kiki
+  - teeny
+  - weeny
+  - peu
+  - blob
+  - jagged
+  - Chippendale
+  - Marmite
+  - paneer
+  - tikka
+  - masala
+  - Lesch
+  - Nyhan
+  # 机构/脑区缩写（专有名词，允许正文裸用）
+  - MIT
+  - TPO
+# 书专用术语表 / 纯中文例外（人读备注）
+glossary:
+  - "颞叶（temporal lobe）"
+  - "顶叶（parietal lobe）"
+  - "枕叶（occipital lobe）"
+  - "额叶（frontal lobe）"
+  - "梭状回（fusiform gyrus）"
+  - "杏仁核（amygdala）"
+  - "边缘系统（limbic system）"
+  - "胼胝体（corpus callosum）"
+  - "丘脑（thalamus）"
+  - "海马体（hippocampus）"
+  - "岛叶（insula）"
+  - "前扣带回（anterior cingulate）"
+  - "角回（angular gyrus）"
+  - "韦尼克区（Wernicke's area）"
+  - "布罗卡区（Broca's area）"
+  - "镜像神经元（mirror neuron）"
+  - "联觉（synesthesia）"
+  - "卡普格拉妄想（Capgras delusion）"
+  - "幻肢（phantom limb）"
+  - "痛觉失认（pain asymbolia）"
+  - "半侧空间忽略（neglect）"
+  - "病感失认（anosognosia）"
+  - "盲视（blindsight）"
+  - "皮质性色盲（achromatopsia）"
+  - "面孔失认（prosopagnosia）"
+  - "科塔尔综合征（Cotard's syndrome）"
+  - "现实解体/人格解体（derealization/depersonalization）"
+  - "观念运动性失用（ideomotor apraxia）"
+  - "跨激活（cross-activation）"
+  - "元表征（metarepresentation）"
+notes: |
+  本书由 BBC 雷思讲座（Reith Lectures, 2003）整理而成，共 5 章。
+  分集：第〇集=序言导读，第1-4章各一集，第5章（神经科学——新哲学，最长）拆为 A、B 两集。
+  主播延伸锚定示例：卡普格拉妄想→让听众试着闭眼想象母亲脸庞却“没感觉”的错位；幻肢镜盒→想象用镜子让麻痹的手动起来。
+  全书视角：第1章提出“研究神经综合征反推正常脑功能”与“演化视角”两大主题，后续各章呼应。
+  图（Figure 1.x 等）要写成口语描述，外文缩写如 V4 译为“V4（颜色加工区）”，正文纯中文。

@@ -14,6 +14,13 @@ Turn a long text (typically an OCR'd book markdown or a PDF) into a spoken-word 
 - "生成 TTS 语音"
 - Any task combining faithful text adaptation with audio synthesis.
 
+## ⛔ Directory & path rules (READ FIRST — hard constraints)
+**The skill directory `skills/b2p/` is READ-ONLY shared code. Never write project artifacts into it.**
+- All outputs (`.md`, `.tts.txt`, `.mp3`/`.wav`, logs, temp scripts) go ONLY in the **caller's project directory** — never in `skills/b2p/`, its `scripts/`, or `scripts/audio/`.
+- Run every `scripts/xxx.py` from the **project directory**; scripts resolve their own code/config (apis.yaml, `tts_engine/`, `anchor/`) read-only from `skills/b2p/`, and resolve inputs/outputs from the current working directory.
+- `tts_run.py` hard-codes `AUDIO_DIR = HERE/audio` and globs `HERE/*.tts.txt` — do NOT work around this by copying artifacts into `scripts/`. Use `--out-dir` (or a throwaway project subdir, cleaned up after) so nothing lands in the skill dir. See `references/CONVENTIONS.md` §0–§3.
+- **Finish check is bidirectional**: verify deliverables exist in the project dir **AND** that `skills/b2p/` has zero new files from this run. Full rules: **`references/CONVENTIONS.md`** (single source of truth for dirs/paths/artifacts/logs).
+
 ## Environment (read first)
 - **Python**: the scripts assume a Python 3.10+ on your `PATH`. Run them as `python scripts/xxx.py …`. If your interpreter isn't the default `python`, substitute your own (e.g. `python3`, or an absolute path) — nothing here hardcodes a specific interpreter.
 - **Dependencies**: `pip install -r requirements.txt` (see that file). Core: `pyyaml`, `edge-tts`, `httpx[socks]`, `aiohttp_socks`, `imageio-ffmpeg`.
@@ -62,3 +69,4 @@ A standalone Fish Audio S2.1 Pro script (SOCKS5 + chunked decoding + resume). Ke
 - Fish Audio returns **chunked** HTTP; httpx auto-decodes it, so mp3s come out clean.
 - **Don't run `fish_tts.py` and `tts_engine` on the same chapters at once** (write conflict).
 - Keep book-specific data in `references/briefs/`, never inline in scripts or docs.
+- **Never write project artifacts into the skill directory** (`skills/b2p/`, `scripts/`, `scripts/audio/`). Outputs belong in the caller's project dir only. Bidirectional finish check: deliverables present AND skill dir unpolluted. See `references/CONVENTIONS.md`.

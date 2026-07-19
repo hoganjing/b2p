@@ -41,8 +41,8 @@ def clean_md(text: str) -> str:
 
 def main():
     ap = argparse.ArgumentParser(description="讲稿 .md -> 干净 .tts.txt")
-    ap.add_argument("dir", nargs="?", default=os.path.dirname(os.path.abspath(__file__)),
-                    help="含 *.md 的目录（默认：脚本所在目录）")
+    ap.add_argument("dir", nargs="?", default=".",
+                    help="含 *.md 的目录（默认：当前工作目录）")
     args = ap.parse_args()
     workdir = os.path.abspath(args.dir)
     if not os.path.isdir(workdir):
@@ -60,7 +60,7 @@ def main():
                 # 要求图表描述写进正文散文）。含 图/表/示意/配图/曲线/结构 或较长的
                 # 标签行疑似真内容，告警让作者改用正文散文或行内（图x）。
                 if re.search(r"[图图表示意配曲线结构]", s) or len(s) > 40:
-                    print(f"  ⚠ 疑似图表/描述被剥离（请改为正文散文，或用行内（图x））：{s}")
+                    print(f"  [WARN] 疑似图表/描述被剥离（请改为正文散文，或用行内（图x））：{s}")
                 continue
             out_lines.append(ln)
         joined = "\n".join(out_lines)
