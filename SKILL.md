@@ -6,7 +6,7 @@ agent_created: true
 
 # Book → Podcast Pipeline
 
-Turn a long text (typically an OCR'd book markdown or a PDF) into a spoken-word podcast in two phases. Both phases are deterministic and script-assisted; the judgment work is in Phase 1 (writing faithful, broadcast-quality scripts). **The skill is book-agnostic** — book-specific data lives in `references/briefs/<slug>.yaml` (see Phase 1), not hardcoded here.
+Turn a long text (typically an OCR'd book markdown or a PDF) into a spoken-word podcast in two phases. Both phases are deterministic and script-assisted; the judgment work is in Phase 1 (writing faithful, broadcast-quality scripts). **The skill is book-agnostic** — book-specific data lives in **your project's** `briefs/<slug>.yaml` (see Phase 1), not hardcoded here.
 
 ## When to use
 - "把这本书做成播客 / 有声书 / 讲稿"
@@ -37,7 +37,7 @@ Goal: one `.md` per chapter, broadcast style, faithful to source, plus a clean `
 
 1. **If the source is a raw PDF (text-layer or scanned), do PDF ingestion + image understanding first** — see `references/workflow.md` 阶段〇 (render scanned pages → visual page-read → extract chart content into oral descriptions). Skip this only if you already have clean OCR markdown.
 2. **Generate / load this book's brief** (book-specific config, NOT hardcoded in the skill):
-   - For a new book, create `references/briefs/<slug>.yaml` from the fields in `references/style_brief_template.md` ("每本书开始前要填的槽位"): `title`, `author`, `source_lang` (`zh`=Chinese-source book, keep the author's intentional English as-is; `en`=default, English book to be translated), `samples`, `white` (allow-list of foreign proper nouns for the `audit.py` gate), plus optional `glossary`/`notes`.
+   - For a new book, create `briefs/<slug>.yaml` in **your project directory** from the fields in `references/style_brief_template.md` ("每本书开始前要填的槽位"): `title`, `author`, `source_lang` (`zh`=Chinese-source book, keep the author's intentional English as-is; `en`=default, English book to be translated), `samples`, `white` (allow-list of foreign proper nouns for the `audit.py` gate), plus optional `glossary`/`notes`.
    - Read `references/style_brief_template.md` for the exact structure, quality rules, and length targets. Adapt per book but keep the rules.
 3. **Sample-first**: write 2–3 sample chapters, get user sign-off on voice/structure before full generation.
 4. Generate per-chapter `.md` (use sub-agents for bulk, but verify real output by char-count, not by receipt).
@@ -68,5 +68,5 @@ A standalone Fish Audio S2.1 Pro script (SOCKS5 + chunked decoding + resume). Ke
 - **Never call `os.remove`/`os.unlink`** in WorkBuddy's sandbox (see WorkBuddy-only notes). Overwrite with `'wb'`.
 - Fish Audio returns **chunked** HTTP; httpx auto-decodes it, so mp3s come out clean.
 - **Don't run `fish_tts.py` and `tts_engine` on the same chapters at once** (write conflict).
-- Keep book-specific data in `references/briefs/`, never inline in scripts or docs.
+- Keep book-specific data in **your project's** `briefs/` directory (not in this skill), never inline in scripts or docs.
 - **Never write project artifacts into the skill directory** (`skills/b2p/`, `scripts/`, `scripts/audio/`). Outputs belong in the caller's project dir only. Bidirectional finish check: deliverables present AND skill dir unpolluted. See `references/CONVENTIONS.md`.

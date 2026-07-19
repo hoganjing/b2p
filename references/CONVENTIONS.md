@@ -30,7 +30,7 @@ SKILL.md 讲做什么，workflow.md 讲怎么做；本文件讲**产物与目录
   ```bash
   cd "<项目目录>"
   python "<技能目录>/scripts/make_tts.py" .
-  python "<技能目录>/scripts/audit.py" . --book <slug> --briefs "<技能目录>/references/briefs"
+  python "<技能目录>/scripts/audit.py" . --book <slug> --briefs "briefs"   # briefs/ 在你的项目目录内
   ```
 - 脚本内部用 `os.path.dirname(__file__)` 定位**自己的代码/配置**（apis.yaml、tts_engine 包、
   anchor 资产）——这部分本来就指向技能目录，是只读引用，**无需也不应改动**。

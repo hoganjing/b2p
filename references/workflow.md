@@ -69,7 +69,7 @@ for i, page in enumerate(doc):
 - 用 Glob/Grep 摸清章节标题规律，不要凭空猜。
 
 ### 1.2 风格手册（必读 references/style_brief_template.md）
-- **每本书先建 brief**：在 `references/briefs/<slug>.yaml` 填 `title`/`author`/`source_lang`（`zh`=中文源书，作者英文原样保留、strayEN 门禁降权；`en`=默认，英文书需中译）/`samples`/`white`（允许正文裸外文的专有名词，供 `audit.py` 白名单）/ `glossary` 等；参照模板末尾的“每本书开始前要填的槽位”。已有范例 `references/briefs/potent-self.yaml`（英文源书）与 `references/briefs/tianxia-yizhi.yaml`（中文源书）。
+- **每本书先建 brief**：在**项目目录**的 `briefs/<slug>.yaml` 填 `title`/`author`/`source_lang`（`zh`=中文源书，作者英文原样保留、strayEN 门禁降权；`en`=默认，英文书需中译）/`samples`/`white`（允许正文裸外文的专有名词，供 `audit.py` 白名单）/ `glossary` 等；参照模板末尾的“每本书开始前要填的槽位”。**brief 是书专用、不可复用的项目资产，务必放在你的项目目录，不要放进技能目录。**
 - 每集结构固定：`标题行（无#号）` → 空行 → `（开场白）` → `（正文）` → `（主播延伸 · 板块名）` → `（收尾与下集预告）`。
 - 所有 `（……）` 都是**独立成行**的括号标签，会被 TTS 脚本整行剥掉；正文内也可用 `（小节标题）` 做分段。
 - 质量硬规则：
@@ -102,8 +102,8 @@ python scripts/audit.py . --white Nora Feldenkrais
 # 只汇报、不返回非零退出码：--no-gate
 ```
 
-- `audit.py` 逻辑：抽出 `NOISE` 通用 OCR 噪点正则（扫描残留/图书馆水印/图占位符等，与书无关）；`WHITE` 专有名词白名单来自 `briefs/<slug>.yaml`（**不再硬编码在脚本里**）。先剥掉整行标签 + 括号注释，再扫裸拉丁字母词。中文源书（`source_lang: zh`）或显式 `--faithful` 时，strayEN 不计入门禁失败、只作提示——作者有意英文混排应保留。
-- **strayEN 命中处理**：逐个判断——是术语/原话→改成“中文（原文）”括号注释；是专有名词→加进该 book 的 `briefs/<slug>.yaml` 的 `white`；是漏译→直接译成中文。改完重跑到 0。
+- `audit.py` 逻辑：抽出 `NOISE` 通用 OCR 噪点正则（扫描残留/图书馆水印/图占位符等，与书无关）；`WHITE` 专有名词白名单来自**项目目录**的 `briefs/<slug>.yaml`（**不再硬编码在脚本里**）。先剥掉整行标签 + 括号注释，再扫裸拉丁字母词。中文源书（`source_lang: zh`）或显式 `--faithful` 时，strayEN 不计入门禁失败、只作提示——作者有意英文混排应保留。
+- **strayEN 命中处理**：逐个判断——是术语/原话→改成“中文（原文）”括号注释；是专有名词→加进**项目目录**该 book 的 `briefs/<slug>.yaml` 的 `white`；是漏译→直接译成中文。改完重跑到 0。
 - `.tts.txt` 也应一并过（脚本默认两个后缀都扫），确保剥标签后正文仍纯中文。
 - 门禁语义：发现 noise>0，或英文源书下 strayEN>0 时 `audit.py` 以**退出码 1** 结束，可接提交前钩子 / CI。中文源书（`source_lang: zh` / `--faithful`）下 strayEN 不阻塞。
 

@@ -2,11 +2,11 @@
 
 > 这是 **book-to-podcast** 技能的**通用规则模板**，与具体书无关。
 > 每本书的专用信息（书名、作者、样稿路径、术语白名单、纯中文例外）**不写在这里**，
-> 而写在 `references/briefs/<书名slug>.yaml`（机器可读，供 `audit.py` 白名单使用）
-> 和/或 `references/briefs/<slug>.md`（人读备注）。
+> 而写在 **项目目录** 的 `briefs/<书名slug>.yaml`（机器可读，供 `audit.py` 白名单使用）
+> 和/或 `briefs/<slug>.md`（人读备注）。
 > **首次为某本书做播客时，先按本模板生成对应 brief，再开始写稿**（见 SKILL.md 阶段一）。
 
-## 每本书开始前要填的槽位（写进 `briefs/<slug>.yaml`）
+## 每本书开始前要填的槽位（写进**项目目录**的 `briefs/<slug>.yaml`）
 - `title`：原书标题（含中文译名 / 原文）。
 - `author`：作者。
 - `source_lang`：源书语言。`zh`=中文原版书（作者本就中英混排）；`en`=英文书需中译。**默认 `en`，中文源书务必设 `zh`**：此时 `audit.py` 的 strayEN 门禁自动降权（只抓 OCR 噪点），作者有意英文原样保留、不强行中文化。
