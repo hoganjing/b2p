@@ -69,7 +69,7 @@ for i, page in enumerate(doc):
 - 用 Glob/Grep 摸清章节标题规律，不要凭空猜。
 
 ### 1.2 风格手册（必读 references/style_brief_template.md）
-- **每本书先建 brief**：在 `references/briefs/<slug>.yaml` 填 `title`/`author`/`samples`/`white`（允许正文裸外文的专有名词，供 `audit.py` 白名单）/ `glossary` 等；参照模板末尾的“每本书开始前要填的槽位”。已有范例 `references/briefs/potent-self.yaml`。
+- **每本书先建 brief**：在 `references/briefs/<slug>.yaml` 填 `title`/`author`/`source_lang`（`zh`=中文源书，作者英文原样保留、strayEN 门禁降权；`en`=默认，英文书需中译）/`samples`/`white`（允许正文裸外文的专有名词，供 `audit.py` 白名单）/ `glossary` 等；参照模板末尾的“每本书开始前要填的槽位”。已有范例 `references/briefs/potent-self.yaml`（英文源书）与 `references/briefs/tianxia-yizhi.yaml`（中文源书）。
 - 每集结构固定：`标题行（无#号）` → 空行 → `（开场白）` → `（正文）` → `（主播延伸 · 板块名）` → `（收尾与下集预告）`。
 - 所有 `（……）` 都是**独立成行**的括号标签，会被 TTS 脚本整行剥掉；正文内也可用 `（小节标题）` 做分段。
 - 质量硬规则：
@@ -78,7 +78,7 @@ for i, page in enumerate(doc):
   3. 主播延伸必须锚定原论点，禁止引入书外理论或编造事实。
   4. 立足全书视角，必要时呼应前文。
   5. 去原书格式噪点（OCR 修正），交稿前跑噪点自查（见 1.4.1）。
-  6. **正文必须纯中文，禁止裸露任何外文**；术语/人名/书名/外语原话一律写成“中文（原文）”括号注释，让外文只落在 `（…）` 里。交稿前跑“正文裸外文”自查（见 1.4.1）。
+  6. **外文处理按源书语言区分**：英文源书（`source_lang: en`，默认）**正文必须纯中文，禁止裸露任何外文**，术语/人名/书名/外语原话一律写成“中文（原文）”括号注释；中文源书（`source_lang: zh`）忠实优先，作者有意英文原样保留、不强行中文化，只抓 OCR 噪点（详见模板第二节第 6 条）。交稿前跑“正文裸外文”自查（见 1.4.1）。
 - 篇幅：正常章 4500–5500 中文字（讲透即可，超了不强行砍）；**短章诚实做短集（1500–2500），绝不灌水**。
 
 ### 1.3 生成节奏（sample-first）
@@ -92,7 +92,7 @@ for i, page in enumerate(doc):
 - 校验：`.tts.txt` 中不得残留任何 `（…）` 标签或“主播延伸”字样。
 
 ### 1.4.1 交稿前自查：audit.py（脚本化门禁，必跑）
-每次交付前，对输出目录跑 `audit.py`，确认 **noise=0、strayEN=0**（该 book brief 的 `white` 白名单除外）。这是把“正文必须纯中文 + 去 OCR 噪点”两条硬规则**变成可验证门禁**，别只靠肉眼。
+每次交付前，对输出目录跑 `audit.py`，确认 **noise=0**（以及英文源书的 `strayEN=0`；**中文源书 `source_lang: zh` 或 `--faithful` 模式下 strayEN 仅作提示、不计入门禁，只门禁 NOISE**）。这是把“去 OCR 噪点”硬规则**变成可验证门禁**，别只靠肉眼。
 
 ```bash
 # 审计当前目录的 *.md + *.tts.txt，载入该书白名单
@@ -102,10 +102,10 @@ python scripts/audit.py . --white Nora Feldenkrais
 # 只汇报、不返回非零退出码：--no-gate
 ```
 
-- `audit.py` 逻辑：抽出 `NOISE` 通用 OCR 噪点正则（扫描残留/图书馆水印/图占位符等，与书无关）；`WHITE` 专有名词白名单来自 `briefs/<slug>.yaml`（**不再硬编码在脚本里**）。先剥掉整行标签 + 括号注释，再扫裸拉丁字母词。
+- `audit.py` 逻辑：抽出 `NOISE` 通用 OCR 噪点正则（扫描残留/图书馆水印/图占位符等，与书无关）；`WHITE` 专有名词白名单来自 `briefs/<slug>.yaml`（**不再硬编码在脚本里**）。先剥掉整行标签 + 括号注释，再扫裸拉丁字母词。中文源书（`source_lang: zh`）或显式 `--faithful` 时，strayEN 不计入门禁失败、只作提示——作者有意英文混排应保留。
 - **strayEN 命中处理**：逐个判断——是术语/原话→改成“中文（原文）”括号注释；是专有名词→加进该 book 的 `briefs/<slug>.yaml` 的 `white`；是漏译→直接译成中文。改完重跑到 0。
 - `.tts.txt` 也应一并过（脚本默认两个后缀都扫），确保剥标签后正文仍纯中文。
-- 门禁语义：发现 noise>0 或 strayEN>0 时 `audit.py` 以**退出码 1** 结束，可接提交前钩子 / CI。
+- 门禁语义：发现 noise>0，或英文源书下 strayEN>0 时 `audit.py` 以**退出码 1** 结束，可接提交前钩子 / CI。中文源书（`source_lang: zh` / `--faithful`）下 strayEN 不阻塞。
 
 ### 1.5 长章压缩（用户要求 ≤30 分钟时）
 - 先把完整版备份到 `_backup_full_v1/`，便于还原。

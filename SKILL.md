@@ -37,13 +37,13 @@ Goal: one `.md` per chapter, broadcast style, faithful to source, plus a clean `
 
 1. **If the source is a raw PDF (text-layer or scanned), do PDF ingestion + image understanding first** — see `references/workflow.md` 阶段〇 (render scanned pages → visual page-read → extract chart content into oral descriptions). Skip this only if you already have clean OCR markdown.
 2. **Generate / load this book's brief** (book-specific config, NOT hardcoded in the skill):
-   - For a new book, create `references/briefs/<slug>.yaml` from the fields in `references/style_brief_template.md` ("每本书开始前要填的槽位"): `title`, `author`, `samples`, `white` (allow-list of foreign proper nouns for the `audit.py` gate), plus optional `glossary`/`notes`.
+   - For a new book, create `references/briefs/<slug>.yaml` from the fields in `references/style_brief_template.md` ("每本书开始前要填的槽位"): `title`, `author`, `source_lang` (`zh`=Chinese-source book, keep the author's intentional English as-is; `en`=default, English book to be translated), `samples`, `white` (allow-list of foreign proper nouns for the `audit.py` gate), plus optional `glossary`/`notes`.
    - Read `references/style_brief_template.md` for the exact structure, quality rules, and length targets. Adapt per book but keep the rules.
 3. **Sample-first**: write 2–3 sample chapters, get user sign-off on voice/structure before full generation.
 4. Generate per-chapter `.md` (use sub-agents for bulk, but verify real output by char-count, not by receipt).
 5. **Hard rule (user mandate)**: agent additions (exercises, examples) are *additive only* — never compress or simplify the source to make room. Label added blocks with `（主播延伸 · …）` and anchor each to a specific source argument. Short chapters stay honestly short; never pad.
 6. Run `python scripts/make_tts.py` from the output dir to strip bracket-labels and emit `*.tts.txt`.
-7. **Gate before delivery**: run `python scripts/audit.py <outdir> --book <slug>` → must report `noise=0` and `strayEN=0` (the `white` list from the brief is the only allowed foreign text). Re-run until clean. See `references/workflow.md` §1.4.1.
+7. **Gate before delivery**: run `python scripts/audit.py <outdir> --book <slug>` → must report `noise=0` (and `strayEN=0` for English-source books; **Chinese-source books with `source_lang: zh` downgrade strayEN to a non-blocking hint — only NOISE is gated**). The `white` list from the brief is the only allowed foreign text. Re-run until clean. See `references/workflow.md` §1.4.1.
 8. For over-long chapters, compress to ≤30 min *without losing any argument* — keep every distinct point, cut only redundancy; back up the full version first (see `references/workflow.md`).
 
 ## Phase 2 — TTS audio
