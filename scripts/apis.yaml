@@ -5,7 +5,7 @@ default: edge_tts
 apis:
   fish_audio:
     type: fish_audio
-    api_key: YOUR_FISH_AUDIO_API_KEY
+    api_key: adb42778da0b47f1aff7e4d9b7566071
     voice_id: 59cb5986671546eaa6ca8ae6f29f6d22
     model: s2.1-pro-free
     socks: 127.0.0.1:10808
@@ -24,7 +24,7 @@ apis:
     temperature: 0.3             # 采样温度，模型默认0.6；调低以减少跨切块韵律方差（实测 temp=0 仍非确定性，故仅作改善非锁死）
     top_p: 0.5                   # 核采样阈值，模型默认0.95；调低同上
     # 官方要求 api-key 鉴权（限时免费但需注册拿 key）
-    api_key: "YOUR_MIMO_API_KEY"
+    api_key: "sk-cxk2vddvnwjmn2pwlgcjc2a2gxxikmzf6xivnqt1071y0qih"
     endpoint: https://api.xiaomimimo.com/v1/chat/completions
     # 如需走代理可加：socks: 127.0.0.1:10808
 
@@ -38,7 +38,7 @@ apis:
     temperature: 0.3             # 采样温度，模型默认0.6；调低以减少跨切块韵律方差（实测 temp=0 仍非确定性，故仅作改善非锁死）
     top_p: 0.5                   # 核采样阈值，模型默认0.95；调低同上
     # optimize: true   # 可选：让模型智能润色文本（默认关，保证逐字照读）
-    api_key: "YOUR_MIMO_API_KEY"
+    api_key: "sk-cxk2vddvnwjmn2pwlgcjc2a2gxxikmzf6xivnqt1071y0qih"
     endpoint: https://api.xiaomimimo.com/v1/chat/completions
     # 如需走代理可加：socks: 127.0.0.1:10808
 
@@ -50,7 +50,7 @@ apis:
     format: mp3                        # API 只出 wav/pcm16，provider 本地 ffmpeg 转码为 mp3 交付 .mp3
     temperature: 0.0                  # 最小方差：让每次生成音色/韵律变化最小
     top_p: 0.01                       # 核采样阈值下限：同上（mimo 无 top_k，用 top_p 代替）
-    api_key: "YOUR_MIMO_API_KEY"
+    api_key: "sk-cxk2vddvnwjmn2pwlgcjc2a2gxxikmzf6xivnqt1071y0qih"
     endpoint: https://api.xiaomimimo.com/v1/chat/completions
 
   # 示例备选锚点：可替换为任意书的锚点音频（mp3/wav, ≤30s, <10MB）。当前是打包的样例种子资产，换书时请改指向你自己的锚点。
@@ -61,5 +61,5 @@ apis:
     format: mp3
     temperature: 0.0
     top_p: 0.01
-    api_key: "YOUR_MIMO_API_KEY"
+    api_key: "sk-cxk2vddvnwjmn2pwlgcjc2a2gxxikmzf6xivnqt1071y0qih"
     endpoint: https://api.xiaomimimo.com/v1/chat/completions

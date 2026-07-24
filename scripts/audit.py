@@ -32,7 +32,8 @@ NOISE_DEFAULT = [
 
 CJK = re.compile(r"[一-鿿]")
 LABEL = re.compile(r"^（[^）]*）\s*$", re.M)        # 整行括号标签
-PAREN = re.compile(r"（[^）]*[A-Za-z][^）]*）")       # 含拉丁字母的括号注释
+PAREN = re.compile(r"（[^）]*[A-Za-z][^）]*）")       # 含拉丁字母的括号注释（保留兼容，主路径见下）
+INNER = re.compile(r"（[^（）]*）")                    # 最里层括号（内部不含任何括号），用于反复剥除嵌套括号
 
 
 def _load_brief(args):
@@ -81,7 +82,11 @@ def _load_brief(args):
 def audit_file(path, noise_pats, white):
     t = open(path, encoding="utf-8").read()
     noise = [p for p in noise_pats if re.search(p, t, re.I)]
-    work = PAREN.sub("", LABEL.sub("", t))           # 剥标签行 + 括号注释后再找裸外文
+    work = LABEL.sub("", t)
+    prev = None
+    while work != prev:                              # 反复剥最里层括号到稳定，处理嵌套（原 PAREN 单趟遇嵌套会漏删外层）
+        prev = work
+        work = INNER.sub("", work)                   # 剥标签行 + 全部括号注释后再找裸外文
     stray = sorted({w for w in re.findall(r"[A-Za-z]{2,}", work) if w not in white})
     return t, noise, stray
 
